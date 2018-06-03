@@ -28,7 +28,7 @@ def EC_from_j_invariant(field, j0):
   uinv = 1/field(u)
   return FiniteFieldEllipticCurve(field, ADR * uinv, BDR * uinv)
 
-
+# 一般楕円関数
 class GenericEllipticCurve(object):
   """
   Elliptic Curve on General Field
@@ -140,7 +140,7 @@ class GenericEllipticCurve(object):
       return s.O
     return s.element_class(s, P[0], -P[1])
 
-
+# 一般楕円関数上の点
 class GenericEllipticCurvePoint(object):
   """
   Elliptic Curve Point on General Field
@@ -197,6 +197,7 @@ class GenericEllipticCurvePoint(object):
   def __sub__(s, rhs):
     return s + (-rhs)
 
+  # クラスが乗法の左
   def __mul__(s, rhs):
     """
     Multiplication Operation
@@ -230,6 +231,7 @@ class GenericEllipticCurvePoint(object):
     """
     return s.group._neg(tuple(s))
 
+  # クラスが乗法の右
   def __rmul__(s, lhs):
     return s * lhs
 
@@ -262,7 +264,7 @@ class GenericEllipticCurvePoint(object):
       return "Infinity Point (0 : 1 : 0) on %s" % s.group
     return "Point (%s : %s : %s) on %s" % (s.x, s.y, s.z, s.group)
 
-
+# 有限群上の楕円関数
 class FiniteFieldEllipticCurve(GenericEllipticCurve):
   """
   Elliptic Curve on Finite Field or Extended Finite Field
@@ -334,6 +336,7 @@ class FiniteFieldEllipticCurve(GenericEllipticCurve):
     R = FiniteFieldEllipticCurvePoint(s, *R.to_python(), normalize=True)
     return R
 
+# 有限群上の有理点
 class FiniteFieldEllipticCurvePoint(GenericEllipticCurvePoint):
   def __init__(s, group, x, y, z=1, normalize=False):
     def F(x):
@@ -392,6 +395,8 @@ class FiniteFieldEllipticCurvePoint(GenericEllipticCurvePoint):
       y = (y[0], y[1])
     return s.__class__(s.group, x, y)
 
+  # 有理点のオーダー
+  # この場で計算する
   def order(s):
     """
     return order of self

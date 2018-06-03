@@ -2,6 +2,7 @@ from __future__ import division
 import random
 
 
+# x が base * k で割り切れる時の最小値kを返す 
 def _find_power_divisor(base, x, modulo=None):
   k = 0
   m = base
@@ -11,6 +12,7 @@ def _find_power_divisor(base, x, modulo=None):
   return k
 
 
+# x^{power_base * k} が crib に一致する時の最小値kを返す
 def _find_power(power_base, x, crib, modulo=None):
   k = 1
   r = power_base
@@ -20,6 +22,7 @@ def _find_power(power_base, x, crib, modulo=None):
   return k
 
 
+# x^2 = a mod m を満たすxをリストで返す
 def modular_square_root(a, m, force=False):
   """
   Calculate Quadratic Residue
@@ -36,9 +39,12 @@ def modular_square_root(a, m, force=False):
     return __modular_square_root(int(a), m)
 
 
+# x^2 = a mod m を満たすxをリストで返す
+# 平方剰余が-1の時は存在しないので空のリストを返す
 def __modular_square_root(a, m):
   from ecpy.utils import is_prime, legendre_symbol, modinv
   if is_prime(m):
+    # 素数の場合
     if legendre_symbol(a, m) == -1:
       return []
     # Tonelli-Shanks Algorithm
